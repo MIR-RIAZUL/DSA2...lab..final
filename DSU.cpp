@@ -40,8 +40,9 @@ void union_sets(int vert_a, int vert_b)
 int main()
 {
     vector<int> nodes = {1, 2, 3, 4};
-    parents = vector<int>(nodes.size());
-    ranks = vector<int>(nodes.size());
+    parents.resize(5);
+    ranks.resize(5);
+
     for (int i : nodes)
     {
         make_set(i);
@@ -53,5 +54,9 @@ int main()
     search_key = 3;
     cout << "For search key " << search_key << ", the parent is " << find_set(search_key) << " before union sets\n";
     union_sets(nodes[2], nodes[1]);
+    cout << "For search key " << search_key << ", the parent is " << find_set(search_key) << " after union sets\n";
+    search_key = 4;
+    cout << "For search key " << search_key << ", the parent is " << find_set(search_key) << " before union sets\n";
+    union_sets(nodes[3], nodes[1]);
     cout << "For search key " << search_key << ", the parent is " << find_set(search_key) << " after union sets\n";
 }
