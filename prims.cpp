@@ -40,7 +40,7 @@ void prims(vector<vector<pair<int, int>>> &adj)
             if (!visited[v])
             {
                 pq.push({v, v_w});
-            }
+            } 
         }
 
         visited[u] = true;
