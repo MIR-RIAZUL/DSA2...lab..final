@@ -3,19 +3,19 @@
 
 using namespace std;
 
-// Bellman-Ford from every city
+
 int findTheCity(int n, vector<vector<pair<int,int>>> &adj, int distanceThreshold)
 {
     int answer = -1;
     int minCount = 1e9;
 
-    // run Bellman-Ford from each city
+    
     for(int start = 0; start < n; start++)
     {
         vector<int> dist(n, 1e9);
         dist[start] = 0;
 
-        // relax edges n-1 times
+       
         for(int i = 0; i < n - 1; i++)
         {
             for(int u = 0; u < n; u++)
@@ -35,7 +35,7 @@ int findTheCity(int n, vector<vector<pair<int,int>>> &adj, int distanceThreshold
             }
         }
 
-        // count reachable cities within threshold
+        
         int count = 0;
         for(int i = 0; i < n; i++)
         {

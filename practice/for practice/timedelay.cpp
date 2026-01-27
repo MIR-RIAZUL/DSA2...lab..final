@@ -16,7 +16,7 @@ int run_dijkstras(vector<vector<pair<int,int>>>& adj, int start)
     > pq;
 
     dist[start] = 0;
-    pq.push({0, start}); // (distance, node)
+    pq.push({0, start});
 
     while(!pq.empty()) {
         auto node = pq.top();
@@ -40,7 +40,7 @@ int run_dijkstras(vector<vector<pair<int,int>>>& adj, int start)
         }
     }
 
-    // Network Delay Time logic
+   
     int ans = 0;
     for(int i = 1; i < n; i++) {
         if(dist[i] == 1e9) return -1;
@@ -48,4 +48,36 @@ int run_dijkstras(vector<vector<pair<int,int>>>& adj, int start)
     }
 
     return ans;
+}
+
+
+
+int main()
+{
+    int n, m;
+    cout << "Enter number of nodes and edges: ";
+    cin >> n >> m;
+
+    
+    vector<vector<pair<int,int>>> adj(n + 1);
+
+    cout << "Enter edges (u v w):\n";
+    for(int i = 0; i < m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w});
+    }
+
+    int start;
+    cout << "Enter starting node: ";
+    cin >> start;
+
+    int result = run_dijkstras(adj, start);
+
+    if(result == -1)
+        cout << "Not all nodes are reachable\n";
+    else
+        cout << "Network delay time: " << result << endl;
+
+    return 0;
 }

@@ -1,59 +1,82 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 
 using namespace std;
 
-bool validPath(int n, vector<vector<int>> &edges, int source, int destination) {
-    vector<vector<int>> adj(n);
 
-    // build adjacency list
-    for(auto &e : edges) {
-        adj[e[0]].push_back(e[1]);
-        adj[e[1]].push_back(e[0]); // undirected
-    }
+int findTheCity(int n, vector<vector<pair<int,int>>> &adj, int distanceThreshold)
+{
+    int answer = -1;
+    int minCount = 1e9;
 
-    // distance array: min distance from source
-    vector<int> dist(n, 1e9);
-    dist[source] = 0;
+    
+    for(int start = 0; start < n; start++)
+    {
+        vector<int> dist(n, 1e9);
+        dist[start] = 0;
 
-    // priority queue: {distance_so_far, node}
-    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
-    pq.push({0, source});
+       
+        for(int i = 0; i < n - 1; i++)
+        {
+            for(int u = 0; u < n; u++)
+            {
+                if(dist[u] == 1e9) continue;
 
-    while(!pq.empty()) {
-        auto node = pq.top();
-        pq.pop();
+                for(auto edge : adj[u])
+                {
+                    int v = edge.first;
+                    int w = edge.second;
 
-        int d = node.first;
-        int u = node.second;
-
-        if(u == destination) return true; // reached destination
-
-        if(d > dist[u]) continue; // already found better
-
-        for(int v : adj[u]) {
-            int new_dist = d + 1; // all edges have weight 1
-            if(new_dist < dist[v]) {
-                dist[v] = new_dist;
-                pq.push({new_dist, v});
+                    if(dist[u] + w < dist[v])
+                    {
+                        dist[v] = dist[u] + w;
+                    }
+                }
             }
+        }
+
+        
+        int count = 0;
+        for(int i = 0; i < n; i++)
+        {
+            if(i != start && dist[i] <= distanceThreshold)
+                count++;
+        }
+
+        
+        if(count <= minCount)
+        {
+            minCount = count;
+            answer = start;
         }
     }
 
-    return false; // destination not reachable
+    return answer;
 }
 
-int main() {
-    int n = 3;
-    vector<vector<int>> edges = {{0,1},{1,2},{2,0}};
-    int source = 0;
-    int destination = 2;
+int main()
+{
+    int n = 4;
+    int distanceThreshold = 4;
 
-    if(validPath(n, edges, source, destination))
-        cout << "true\n";
-    else
-        cout << "false\n";
+ 
+    vector<vector<pair<int,int>>> adj(n);
+
+   
+    adj[0].push_back({1,3});
+    adj[1].push_back({0,3});
+
+    adj[1].push_back({2,1});
+    adj[2].push_back({1,1});
+
+    adj[1].push_back({3,4});
+    adj[3].push_back({1,4});
+
+    adj[2].push_back({3,1});
+    adj[3].push_back({2,1});
+
+    cout << findTheCity(n, adj, distanceThreshold) << endl;
 
     return 0;
 }
+

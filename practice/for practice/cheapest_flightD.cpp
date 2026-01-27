@@ -1,47 +1,54 @@
-#include <iostream>
-#include <vector>
-#include <queue>
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<climits>
 
 using namespace std;
 
-int cheapestFlight_Dijkstra(int n, vector<vector<int>>& flights,
-                            int src, int dst, int k)
+int run_dijkstras(vector<vector<pair<int,int>>>& adj,
+                  int src, int dst, int k)
 {
-    vector<vector<pair<int,int>>> adj(n);
-    for(auto &f : flights) {
-        adj[f[0]].push_back({f[1], f[2]});
-    }
+    int n = adj.size();
 
-    // (cost, node, stops)
+    // dist[node][stops] = min cost
+    vector<vector<int>> dist(n, vector<int>(k + 2, INT_MAX));
+
     priority_queue<
         vector<int>,
         vector<vector<int>>,
         greater<vector<int>>
     > pq;
 
+    // {cost, node, stops}
+    dist[src][0] = 0;
     pq.push({0, src, 0});
 
-    vector<vector<int>> best(n, vector<int>(k+2, 1e9));
-    best[src][0] = 0;
-
-    while(!pq.empty()) {
-        auto cur = pq.top();
+    while(!pq.empty())
+    {
+        auto node = pq.top();
         pq.pop();
 
-        int cost = cur[0];
-        int u = cur[1];
-        int stops = cur[2];
+        int cost  = node[0];
+        int u     = node[1];
+        int stops = node[2];
 
-        if(u == dst) return cost;
-        if(stops > k) continue;
+        if (u == dst)
+            return cost;
 
-        for(auto nbr : adj[u]) {
-            int v = nbr.first;
-            int wt = nbr.second;
+        if (stops > k)
+            continue;
 
-            if(cost + wt < best[v][stops+1]) {
-                best[v][stops+1] = cost + wt;
-                pq.push({cost + wt, v, stops + 1});
+        for (auto neighbours : adj[u])
+        {
+            int v   = neighbours.first;
+            int w   = neighbours.second;
+
+            int new_cost = cost + w;
+
+            if (new_cost < dist[v][stops + 1])
+            {
+                dist[v][stops + 1] = new_cost;
+                pq.push({new_cost, v, stops + 1});
             }
         }
     }
@@ -49,21 +56,27 @@ int cheapestFlight_Dijkstra(int n, vector<vector<int>>& flights,
     return -1;
 }
 
-int main() {
+int main()
+{
     int n = 4;
-    vector<vector<int>> flights = {
-        {0,1,100},
-        {1,2,100},
-        {2,0,100},
-        {1,3,600},
-        {2,3,200}
-    };
+    vector<vector<pair<int,int>>> adj(n);
+
+    // flights: u -> v (cost)
+    adj[0].push_back({1, 100});
+    adj[1].push_back({2, 100});
+    adj[2].push_back({3, 100});
+    adj[0].push_back({2, 500});
 
     int src = 0;
     int dst = 3;
-    int k = 1;
+    int k   = 1;
 
-    cout << cheapestFlight_Dijkstra(n, flights, src, dst, k) << endl;
+    int ans = run_dijkstras(adj, src, dst, k);
+
+    if(ans == -1)
+        cout << "No route found" << endl;
+    else
+        cout << "Cheapest price: " << ans << endl;
 
     return 0;
 }
