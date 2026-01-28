@@ -12,7 +12,7 @@ int minimumEffortPath(vector<vector<int>>& heights)
 
     vector<vector<int>> dist(rows, vector<int>(cols, 1e9));
 
-    // {effort, {row, col}}
+    
     priority_queue<
         pair<int, pair<int,int>>,
         vector<pair<int, pair<int,int>>>,
