@@ -40,7 +40,7 @@ int run_dijkstras(vector<vector<pair<int,int>>>& adj, int start)
         }
     }
 
-   
+
     int ans = 0;
     for(int i = 1; i < n; i++) {
         if(dist[i] == 1e9) return -1;
@@ -58,7 +58,7 @@ int main()
     cout << "Enter number of nodes and edges: ";
     cin >> n >> m;
 
-    
+
     vector<vector<pair<int,int>>> adj(n + 1);
 
     cout << "Enter edges (u v w):\n";
