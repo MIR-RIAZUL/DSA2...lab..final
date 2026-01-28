@@ -5,62 +5,72 @@
 
 using namespace std;
 
-int minimumEffortPath(vector<vector<int>> &heights) {
+int minimumEffortPath(vector<vector<int>>& heights)
+{
     int rows = heights.size();
     int cols = heights[0].size();
-    int n = rows * cols; // total number of nodes
 
-    // effort array (flattened)
-    vector<int> dist(n, 1e9);
+    vector<vector<int>> dist(rows, vector<int>(cols, 1e9));
 
-    // directions: up, down, left, right
-    int dr[4] = {-1, 1, 0, 0};
-    int dc[4] = {0, 0, -1, 1};
+    // {effort, {row, col}}
+    priority_queue<
+        pair<int, pair<int,int>>,
+        vector<pair<int, pair<int,int>>>,
+        greater<pair<int, pair<int,int>>>
+    > pq;
 
-    // min-heap: {effort_so_far, node_index}
-    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+    dist[0][0] = 0;
+    pq.push({0, {0, 0}});
 
-    dist[0] = 0; // top-left cell
-    pq.push({0, 0});
+    int dr[4] = {1, -1, 0, 0};
+    int dc[4] = {0, 0, 1, -1};
 
-    while(!pq.empty()) {
+    while (!pq.empty())
+    {
         auto node = pq.top();
         pq.pop();
-        int d = node.first;
-        int idx = node.second;
-        int r = idx / cols;
-        int c = idx % cols;
 
-        if(d > dist[idx]) continue;
+        int effort = node.first;
+        int r = node.second.first;
+        int c = node.second.second;
 
-        // explore neighbors
-        for(int i = 0; i < 4; i++) {
+        if (effort > dist[r][c])
+            continue;
+
+        if (r == rows - 1 && c == cols - 1)
+            return effort;
+
+        for (int i = 0; i < 4; i++)
+        {
             int nr = r + dr[i];
             int nc = c + dc[i];
 
-            if(nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-                int nidx = nr * cols + nc;
-                int edgeWeight = abs(heights[r][c] - heights[nr][nc]);
-                int newDist = max(dist[idx], edgeWeight);
-                if(newDist < dist[nidx]) {
-                    dist[nidx] = newDist;
-                    pq.push({newDist, nidx});
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols)
+            {
+                int edge_cost = abs(heights[r][c] - heights[nr][nc]);
+                int new_effort = max(dist[r][c], edge_cost);
+
+                if (new_effort < dist[nr][nc])
+                {
+                    dist[nr][nc] = new_effort;
+                    pq.push({new_effort, {nr, nc}});
                 }
             }
         }
     }
 
-    return dist[n-1]; // bottom-right cell
+    return 0;
 }
 
-int main() {
+int main()
+{
     vector<vector<int>> heights = {
-        {1,2,2},
-        {3,8,2},
-        {5,3,5}
+        {1,2,1,1,1},
+        {1,2,1,2,1},
+        {1,2,1,2,1},
+        {1,2,1,2,1},
+        {1,1,1,2,1}
     };
 
-    cout << minimumEffortPath(heights) << endl; // Output: 2
-
-    return 0;
+    cout << minimumEffortPath(heights) << endl;
 }
