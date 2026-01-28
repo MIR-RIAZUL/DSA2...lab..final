@@ -10,7 +10,7 @@ int run_dijkstras(vector<vector<pair<int,int>>>& adj,
 {
     int n = adj.size();
 
-    // dist[node][stops] = min cost
+
     vector<vector<int>> dist(n, vector<int>(k + 2, INT_MAX));
 
     priority_queue<
@@ -19,7 +19,7 @@ int run_dijkstras(vector<vector<pair<int,int>>>& adj,
         greater<vector<int>>
     > pq;
 
-    // {cost, node, stops}
+
     dist[src][0] = 0;
     pq.push({0, src, 0});
 
