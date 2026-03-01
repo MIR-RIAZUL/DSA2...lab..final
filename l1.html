@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lecture 1</title>
+
+    <style>
+       
+    </style>
+</head>
+<body>
+    <!--tag: table,th,tr,rowgroup,columnm group-->
+    <!--attr:td/tr->colspan,rowspan,scope,header,
+    table->id,border -->
+    <table id="mark table" border="1">
+        <tr>
+            <th>name</th>
+            <th>id</th>
+            <th>course</th>
+            <th>marks</th>
+
+        </tr>
+        <tr>
+            <td rowspan="2"> bob</td>
+             <td rowspan="2"> 102</td>
+             <td>cse1111</td>
+             <td>csee</td>
+            </td>
+        </tr>
+
+
+    </table>
+
+    <form action="http//localhot:8000/personal-data" method="post">
+
+        <!--FIELDSET,INPUT,LEBEL,BUTTON-->
+        <!--INPUT TYPE: TEXT,FILE,EMAIL,PASSWORD,IMAGE,VIDEO,TEXTFILELD,RADIO,DROPDOWN-->
+        <fieldset>
+            <legend>personal info</legend>
+            <label>FIRST NAME</label>
+            <input type="text">
+            <label>LAST NAME</label>
+            <input type="text">
+
+            <br>
+            <br>
+            <label>birth date</label>
+            <input type="date">
+            <label>email</label>
+            <input type="email" pattern=".+@example\.com">
+
+            <label>address</label>
+            <input type="textfield">
+
+            <br>
+            <br>
+            <label>gender</label>
+            <br>
+            <label>male</label>
+            <input type="radio">
+            <label>FEmale</label>
+            <input type="radio">
+        </fieldset>
+
+        <fieldset>
+            <legend>preferance</legend>
+            <input list="Themes"name="Theme" id="Theme">
+            <datalist id="Themes">
+                <option>light</option>
+                <option>dark</option>
+                <option>system</option>
+            </datalist>
+            <label>rating</label>
+            <input type="range" min="1" max="5" step="1" value="5">
+        </fieldset>
+        <button type="reset">reset</button>
+        <button type="submit">submit</button>
+    </form>
+    <br>
+    <a href="www.google.com" target="_parent">click here</a>
+    <br>
+    <br>
+    <br>
+
+    <iframe src="http://127.0.0.1:5500/l1.html?Themes="
+    width="600px"
+    height="400px"
+    title="https:google.com"> </iframe>
+
+    <div class="horizontal-div">box 1</div>
+    <div>box 2</div>
+    <div>box 3</div>
+</body>
+</html>
